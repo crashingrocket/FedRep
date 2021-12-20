@@ -25,8 +25,10 @@ def noniid(dataset, num_users, shard_per_user, num_classes, rand_set_all=[]):
         if label < num_classes:
             idxs_dict[label].append(i)
             count += 1
+    # idxs_dict[i] is a list, consisting of indices of samples with corresponding class
 
-    shard_per_class = int(shard_per_user * num_users / num_classes)
+
+    shard_per_class = int(shard_per_user * num_users / num_classes) # how many shards a class should be divided into
     samples_per_user = int( count/num_users )
     # whether to sample more test samples per user
     if (samples_per_user < 100):
@@ -45,7 +47,9 @@ def noniid(dataset, num_users, shard_per_user, num_classes, rand_set_all=[]):
         for i, idx in enumerate(leftover):
             x[i] = np.concatenate([x[i], [idx]])
         idxs_dict[label] = x
+    # idxs_dict[i] is a list, consisting of shards, which contains indices of samples from class i,
 
+    # rand_set_all[i] denotes the classes on client i
     if len(rand_set_all) == 0:
         rand_set_all = list(range(num_classes)) * shard_per_class
         random.shuffle(rand_set_all)

@@ -580,7 +580,7 @@ class LocalUpdate(object):
                     w_glob_keys = [net.weight_keys[i] for i in [0,1,3,4]]
                 elif 'sent140' in self.args.dataset:
                     w_glob_keys = [net_keys[i] for i in [0,1,2,3,4,5]]
-                elif 'mnist' in args.dataset:
+                elif 'mnist' in self.args.dataset:
                     w_glob_keys = [net_glob.weight_keys[i] for i in [0,1,2]]
             elif 'maml' in self.args.alg:
                 local_eps = 5

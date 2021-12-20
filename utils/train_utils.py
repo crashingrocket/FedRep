@@ -47,6 +47,8 @@ def get_data(args):
     else:
         exit('Error: unrecognized dataset')
 
+    # dict_users_train[i] contains sample indices for the i th user
+    # the label distribution of dict_users_train and dict_users_test are the same
     return dataset_train, dataset_test, dict_users_train, dict_users_test
 
 def read_data(train_data_dir, test_data_dir):

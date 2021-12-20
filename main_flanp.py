@@ -66,7 +66,7 @@ if __name__ == '__main__':
     net_keys = [*net_glob.state_dict().keys()]
 
     # specify the representation parameters (in w_glob_keys) and head parameters (all others)
-    if args.alg == 'fedrep' or args.alg == 'fedper':
+    if args.alg == 'fedrep' or args.alg == 'fedper' or args.alg == 'flanp' or args.alg == 'fedrep_all':
         if 'cifar' in  args.dataset:
             w_glob_keys = [net_glob.weight_keys[i] for i in [0,1,3,4]]
         elif 'mnist' in args.dataset:
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     print(total_num_layers)
     print(w_glob_keys)
     print(net_keys)
-    if args.alg == 'fedrep' or args.alg == 'fedper' or args.alg == 'lg':
+    if args.alg == 'fedrep' or args.alg == 'fedper' or args.alg == 'lg' or args.alg == 'flanp' or args.alg == 'fedrep_all':
         num_param_glob = 0
         num_param_local = 0
         for key in net_glob.state_dict().keys():
@@ -123,24 +123,29 @@ if __name__ == '__main__':
     accs10 = 0
     accs10_glob = 0
     start = time.time()
+    m = args.init_clients
+    double_c = args.double_freq
     running_time_total = 0
     running_time_record = []
     for iter in range(args.epochs+1):
-        m = max(int(args.frac * args.num_users), 1)
-        if iter == args.epochs:
-            m = args.num_users
-
-        idxs_users = np.random.choice(range(args.num_users), m, replace=False)
         ################################################
+        m = min(m * 2, int(args.num_users * args.frac)) if double_c == 0 else m
+        double_c = args.double_freq if double_c == 0 else double_c - 1
 
+        # generate samples from expotential distribution
         simulated_running_time = np.random.exponential(1, args.num_users)
-        running_time = np.sort(simulated_running_time)[m - 1]
+        running_time_ordering = np.argsort(simulated_running_time)
+        simulated_running_time_ordered = np.sort(simulated_running_time)
+        idxs_users = running_time_ordering[:m]
+        running_time = simulated_running_time_ordered[m - 1]
         running_time_total += running_time
         running_time_record.append(running_time_total)
         ################################################
 
         w_glob = {}
         loss_locals = []
+
+
         w_keys_epoch = w_glob_keys
         times_in = []
         total_len=0

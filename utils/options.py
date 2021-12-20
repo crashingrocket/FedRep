@@ -46,6 +46,10 @@ def args_parser():
     parser.add_argument('--lr_in', type=float, default='0.0001', help='PerFedAvg inner loop step size')
     parser.add_argument('--bs_frac_in', type=float, default='0.8', help='PerFedAvg fraction of batch used for inner update')
     parser.add_argument('--lam_ditto', type=float, default='1', help='Ditto parameter lambda')
+    ## FLANP
+    parser.add_argument('--init_clients', type=int, default=4, help="the number of clients participate initially")
+    parser.add_argument('--double_freq', type=int, default=20, help="how often to double the participated clients")
+
 
     # other arguments
     parser.add_argument('--dataset', type=str, default='mnist', help="name of dataset")
