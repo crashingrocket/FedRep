@@ -57,6 +57,7 @@ def args_parser():
     parser.add_argument('--num_classes', type=int, default=10, help="number of classes")
     parser.add_argument('--num_channels', type=int, default=3, help="number of channels of imges")
     parser.add_argument('--gpu', type=int, default=0, help="GPU ID, -1 for CPU")
+    parser.add_argument('--repeat_id', type=int, default=0, help="repeat ID")
     parser.add_argument('--seed', type=int, default=1, help='random seed (default: 1)')
     parser.add_argument('--test_freq', type=int, default=1, help='how often to test on val set')
     parser.add_argument('--load_fed', type=str, default='n', help='define pretrained federated model path')
