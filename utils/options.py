@@ -48,6 +48,7 @@ def args_parser():
     parser.add_argument('--lam_ditto', type=float, default='1', help='Ditto parameter lambda')
     ## FLANP
     parser.add_argument('--init_clients', type=int, default=4, help="the number of clients participate initially")
+    parser.add_argument('--resample', action='store_true', help="whether to resample the speed of clients")
     parser.add_argument('--double_freq', type=int, default=20, help="how often to double the participated clients")
 
 
@@ -57,12 +58,12 @@ def args_parser():
     parser.add_argument('--num_classes', type=int, default=10, help="number of classes")
     parser.add_argument('--num_channels', type=int, default=3, help="number of channels of imges")
     parser.add_argument('--gpu', type=int, default=0, help="GPU ID, -1 for CPU")
-    parser.add_argument('--repeat_id', type=int, default=0, help="repeat ID")
     parser.add_argument('--seed', type=int, default=1, help='random seed (default: 1)')
     parser.add_argument('--test_freq', type=int, default=1, help='how often to test on val set')
     parser.add_argument('--load_fed', type=str, default='n', help='define pretrained federated model path')
     parser.add_argument('--results_save', type=str, default='runA', help='define fed results save folder')
     parser.add_argument('--save_every', type=int, default=50, help='how often to save models')
-
+    parser.add_argument('--description', type=str, default='none', help="the description of the setting, used for file naming")
+    parser.add_argument('--repeat_id', type=int, default=0, help="repeat ID")
     args = parser.parse_args()
     return args

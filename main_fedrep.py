@@ -125,6 +125,7 @@ if __name__ == '__main__':
     start = time.time()
     running_time_total = 0
     running_time_record = []
+    simulated_running_time = np.random.exponential(1, args.num_users)
     for iter in range(args.epochs+1):
         m = max(int(args.frac * args.num_users), 1)
         if iter == args.epochs:
@@ -132,8 +133,8 @@ if __name__ == '__main__':
 
         idxs_users = np.random.choice(range(args.num_users), m, replace=False)
         ################################################
-
-        simulated_running_time = np.random.exponential(1, args.num_users)
+        if args.resample:
+            simulated_running_time = np.random.exponential(1, args.num_users)
         running_time = np.sort(simulated_running_time)[m - 1]
         running_time_total += running_time
         running_time_record.append(running_time_total)
@@ -241,7 +242,7 @@ if __name__ == '__main__':
     print(end-start)
     print(times)
     print(accs)
-    base_dir = './save/accs_' + args.alg + '_' +  args.dataset + str(args.num_users) +'_'+ str(args.shard_per_user) + '-' + str(args.repeat_id) + '.csv'
+    base_dir = './save/accs_' + args.alg + '_' +  args.dataset + str(args.num_users) +'_'+ str(args.shard_per_user) + '-' + args.description + '-' + str(args.repeat_id) + '.csv'
     user_save_path = base_dir
     accs = np.array(accs)
     times = np.array(running_time_record)
